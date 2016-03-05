@@ -19,7 +19,14 @@
                  [environ "1.0.2"]]
 
   :plugins [[lein-cljsbuild "1.1.1"]
-            [lein-environ "1.0.1"]]
+            [lein-environ "1.0.1"]
+            [lein-bower "0.5.1"]]
+
+  :bower-dependencies [[bootstrap-css "3.3.6"]
+                       [font-awesome "4.5.0"]
+                       [bootstrap3-typeahead "4.0.0"]
+                       [fancytree "2.9.0"]]
+
 
   :min-lein-version "2.5.3"
 

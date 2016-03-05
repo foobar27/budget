@@ -1,5 +1,10 @@
 # budget
 
+## Download css/js dependencies
+
+```sh
+lein bower install
+```
 
 ## Development
 

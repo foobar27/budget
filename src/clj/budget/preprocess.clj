@@ -1,4 +1,4 @@
-(ns budget.core
+(ns budget.preprocess
   (:require [clojure.data.csv :as csv]
             [clojure.java.io :as io]
             [clojure.string :as string]
@@ -52,53 +52,3 @@
   (spit (io/file "/tmp/foo.json") (json/generate-string (walk-node root)))
   ;;(pprint (walk-node nodes))
   )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

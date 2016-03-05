@@ -4,6 +4,7 @@
             [clojure.string :as string]
             [cheshire.core :as json]))
 
+;; TODO remove
 ;; (distinct (map (comp :type parse-line) depenses))
 (def parse-type
   {"Chapitre" :chapitre
@@ -26,22 +27,78 @@
   (with-open [f (io/reader (io/file (io/resource f)))]
     (into [] (map parse-line (drop 1 (csv/read-csv f))))))
 
-(def depenses (load-csv-file "budget2016-depenses.csv"))
-
 (defn parse-lines [rows]
-  (loop [rows rows
-         result {}]
-    (if (seq rows)
-      (let [row (first rows)
-            key (into [] (:id row))]
-        (recur (rest rows)
-               (-> result
-                   (assoc-in (conj key :name) (:label row))
-                   (assoc-in (conj key :size) (:v2016 row)))))
-      result)))
+  {:name "Budget"
+   :children (loop [rows rows
+                    result {}]
+               (if (seq rows)
+                 (let [row (first rows)
+                       key (into [] (interpose :children (:id row)))]
+                   (recur (rest rows)
+                          (-> result
+                              (assoc-in (conj key :name) (:label row))
+                              (assoc-in (conj key :size) (:v2016 row))))) ;; TODO all values
+                 result))})
+
+(defn walk-node [{:keys [children] :as node}]
+  (if (seq children)
+    (assoc node :children (into [] (map walk-node (vals children))))
+    node))
 
 (comment
-  (require '[clojure.pprint :refer [pprint]]))
-(def nodes (parse-lines depenses))
+  (require '[clojure.pprint :refer [pprint]])
+  (def depenses (load-csv-file "budget2016-depenses.csv"))
+  (def root (parse-lines depenses))
+  (spit (io/file "/tmp/foo.json") (json/generate-string (walk-node root)))
+  ;;(pprint (walk-node nodes))
+  )
 
-(spit (io/file "/tmp/foo.json") (json/generate-string nodes))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -24,7 +24,7 @@
    :v2016 (parse-value v2016)})
 
 (defn load-csv-file [f]
-  (with-open [f (io/reader (io/file (io/resource f)))]
+  (with-open [f (io/reader (io/file f))]
     (into [] (map parse-line (drop 1 (csv/read-csv f))))))
 
 (defn parse-lines [rows]
@@ -45,10 +45,20 @@
     (assoc node :children (into [] (map walk-node (vals children))))
     node))
 
-(comment
-  (require '[clojure.pprint :refer [pprint]])
-  (def depenses (load-csv-file "budget2016-depenses.csv"))
-  (def root (parse-lines depenses))
-  (spit (io/file "/tmp/foo.json") (json/generate-string (walk-node root)))
-  ;;(pprint (walk-node nodes))
-  )
+(defn preprocess []
+  (let [input-file (-> "input/budget2016-depenses.csv" io/resource io/file)
+        output-file (-> input-file
+                        (.getParentFile)
+                        (.getParentFile)
+                        (io/file "generated")
+                        (io/file "budget2016-depenses.json"))]
+    (when-not (.exists output-file)
+      (.mkdirs (.getParentFile output-file))
+      (->> (load-csv-file input-file)
+           parse-lines
+           walk-node
+           json/generate-string
+           (spit output-file)))))
+
+(preprocess)
+

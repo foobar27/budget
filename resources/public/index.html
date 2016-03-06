@@ -7,11 +7,25 @@
     <link href="vendor/bootstrap-css/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   </head>
   <body>
+    <div id="main">
+      <div id="sequence"></div>
+      <div id="chart">
+        <div id="explanation" style="visibility: hidden;">
+          <span id="percentage"></span><br/>
+          of visits begin with this sequence of pages
+        </div>
+      </div>
+    </div>
+    <div id="sidebar">
+      <input type="checkbox" id="togglelegend"> Legend<br/>
+      <div id="legend" style="visibility: hidden;"></div>
+    </div>
     <div class="container-fluid">
       <div class="row">
 	<div id="app"></div>
       </div>
     </div>
+    <script src="vendor/d3/d3.min.js" type="text/javascript"></script>
     <script src="js/compiled/budget.js" type="text/javascript"></script>
   </body>
 </html>

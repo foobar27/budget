@@ -25,7 +25,8 @@
   :bower-dependencies [[bootstrap-css "3.3.6"]
                        [font-awesome "4.5.0"]
                        [bootstrap3-typeahead "4.0.0"]
-                       [fancytree "2.9.0"]]
+                       [fancytree "2.9.0"]
+                       [d3 "3.5.9"]]
 
 
   :min-lein-version "2.5.3"

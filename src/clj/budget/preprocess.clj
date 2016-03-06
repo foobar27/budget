@@ -42,7 +42,9 @@
 
 (defn walk-node [{:keys [children] :as node}]
   (if (seq children)
-    (assoc node :children (into [] (map walk-node (vals children))))
+    (-> node
+        (dissoc :size)
+        (assoc node :children (into [] (map walk-node (vals children)))))
     node))
 
 (defn preprocess []

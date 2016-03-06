@@ -50,6 +50,7 @@
         output-file (-> input-file
                         (.getParentFile)
                         (.getParentFile)
+                        (io/file "public")
                         (io/file "generated")
                         (io/file "budget2016-depenses.json"))]
     (when-not (.exists output-file)
